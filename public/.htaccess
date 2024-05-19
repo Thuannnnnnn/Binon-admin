@@ -1,0 +1,27 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    # Exclude API routes from being rewritten
+    RewriteCond %{REQUEST_URI} ^/api/ [NC]
+    RewriteRule .* - [L]
+    RewriteRule ^index\.html$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.html [L]  
+  </IfModule>
+  # DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+  PassengerAppRoot "/home/u4zvamqtf2j1/Backend"
+  PassengerBaseURI "/"
+  PassengerNodejs "/home/u4zvamqtf2j1/nodevenv/Backend/20/bin/node"
+  PassengerAppType node
+  PassengerStartupFile app.js
+  # DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+  # DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+  <IfModule Litespeed>
+  SetEnv DB_HOST 137.59.105.20
+  SetEnv DB_NAME u4zvamqtf2j1_chocolate_Binon
+  SetEnv DB_PORT 3306
+  SetEnv DB_USER u4zvamqtf2j1_u4zvamqtf2j1
+  SetEnv DB_PASSWORD anhthuan1708@
+  </IfModule>
+  # DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END
