@@ -5,9 +5,10 @@ import {
   InformationCircleIcon,
   ServerStackIcon,
   RectangleStackIcon,
+  RectangleGroupIcon
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
-import { SignIn, SignUp } from "@/pages/auth";
+import { Home, Profile, Tables, Notifications, Product } from "@/pages/dashboard";
+import { SignIn } from "@/pages/auth";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -41,6 +42,12 @@ export const routes = [
         path: "/notifications",
         element: <Notifications />,
       },
+      {
+        icon: <RectangleGroupIcon {...icon} />,
+        name: "product",
+        path: "/product",
+        element: <Product />,
+      },
     ],
   },
   {
@@ -52,12 +59,6 @@ export const routes = [
         name: "sign in",
         path: "/sign-in",
         element: <SignIn />,
-      },
-      {
-        icon: <RectangleStackIcon {...icon} />,
-        name: "sign up",
-        path: "/sign-up",
-        element: <SignUp />,
       },
     ],
   },
