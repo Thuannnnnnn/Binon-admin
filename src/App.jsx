@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from '@/layouts/Dashboard'; // Adjust the path as necessary
-import Auth from '@/layouts/Auth'; // Adjust the path as necessary
+import Dashboard from '@/layouts/dashboard'; // Adjust the path as necessary
+import Auth from '@/layouts/auth'; // Adjust the path as necessary
 import { AuthContext } from './Auth/AuthContext'; // Import AuthContext
 
 function App() {
