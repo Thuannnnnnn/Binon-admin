@@ -41,7 +41,7 @@ export function SignIn() {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', requestData);
+      const response = await axios.post('https://shopcuathuan.shop/api/auth/login', requestData);
       console.log('Success:', response.data);
       onChangeCookie(response.data.token);  // Assume response.data contains the token
       navigate("/dashboard/home");

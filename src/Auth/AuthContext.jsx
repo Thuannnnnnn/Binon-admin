@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = cookies.token;
         if (token) {
-            axios.post('http://localhost:3000/api/auth/validate', {}, {
+            axios.post('https://shopcuathuan.shop/api/auth/validate', {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
