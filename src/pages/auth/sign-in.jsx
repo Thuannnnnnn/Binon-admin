@@ -43,7 +43,8 @@ export function SignIn() {
     try {
       const response = await axios.post('https://shopcuathuan.shop/api/auth/login', requestData);
       console.log('Success:', response.data);
-      onChangeCookie(response.data.token);  // Assume response.data contains the token
+      onChangeCookie(response.data.token); 
+      console.log("login thanh cong") // Assume response.data contains the token
       navigate("/dashboard/home");
     } catch (error) {
       console.error('Error:', error);

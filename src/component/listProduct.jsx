@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
@@ -11,6 +11,7 @@ import {
   IconButton,
   Input,
 } from "@material-tailwind/react";
+import { AuthContext } from "@/Auth/AuthContext";
 import ModalAddProduct from "../widgets/modal/modalAddProduct"
 const TABLE_HEAD = ["ID", "Name", "Category", "Price", "Stock", "Image", "Desc", "Actions"];
 const initialState = [];
@@ -20,10 +21,14 @@ export function ListProduct() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 10;
-
+  const { auth } = useContext(AuthContext);
   useEffect(() => {
-    axios
-      .get("https://shopcuathuan.shop/api/product/getAll")
+    axios.get("http://localhost:3000/api/product/getAll", {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${auth.token}`
+      }
+    })
       .then((response) => {
         const data = response.data;
         setData(data);
@@ -33,20 +38,20 @@ export function ListProduct() {
       });
   }, []);
 
-  // Filter data based on search query
+
   const filteredData = data.filter((product) =>
     product.productName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Calculate the range of items to display
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Calculate total pages
+
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  // Handle page change
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };

@@ -6,34 +6,39 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
-    const [auth, setAuth] = useState({ token: null, isAuthenticated: false, loading: true });
+    const [auth, setAuth] = useState({ token: null, isAuthenticated: false, loading: true, userData: null });
+    const [token, setToken] = useState("");
 
     useEffect(() => {
-        const token = cookies.token;
-        if (token) {
+        const tokenCookie = cookies.token;
+        setToken(tokenCookie);
+
+        if (tokenCookie) {
             axios.post('https://shopcuathuan.shop/api/auth/validate', {}, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${tokenCookie}`
                 }
             })
                 .then(response => {
                     const data = response.data;
+
                     if (data) {
-                        setAuth({ token, isAuthenticated: true, loading: false });
+                        setAuth({ token: tokenCookie, isAuthenticated: true, loading: false, userData: data });
                     } else {
-                        setAuth({ token: null, isAuthenticated: false, loading: false });
+                        setAuth({ token: null, isAuthenticated: false, loading: false, userData: null });
                         removeCookie('token'); // Optionally remove invalid token
                     }
                 })
                 .catch(() => {
-                    setAuth({ token: null, isAuthenticated: false, loading: false });
+                    setAuth({ token: null, isAuthenticated: false, loading: false, userData: null });
                     removeCookie('token'); // Optionally remove invalid token
                 });
         } else {
-            setAuth({ token: null, isAuthenticated: false, loading: false });
+            setAuth({ token: null, isAuthenticated: false, loading: false, userData: null });
         }
     }, [cookies.token, removeCookie]);
+
 
     return (
         <AuthContext.Provider value={{ auth, setAuth }}>

@@ -7,7 +7,6 @@ import { AuthContext } from './Auth/AuthContext'; // Import AuthContext
 function App() {
   const { auth } = useContext(AuthContext);
   const { isAuthenticated, loading } = auth;
-
   if (loading) {
     return <div>Loading...</div>; // Display a loading indicator while checking authentication
   }
