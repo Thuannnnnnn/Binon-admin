@@ -13,7 +13,7 @@ import {
 } from "@material-tailwind/react";
 import { AuthContext } from "@/Auth/AuthContext";
 import ModalAddProduct from "../widgets/modal/modalAddProduct"
-const TABLE_HEAD = ["ID", "Name", "Category", "Price", "Stock", "Image", "Desc", "Actions"];
+const TABLE_HEAD = ["Mã Sản Phẩm", "Tên Sản Phẩm", "Giá", "Kích Hoạt", "Ảnh", "Mô Tả ", " "];
 const initialState = [];
 
 export function ListProduct() {
@@ -23,7 +23,7 @@ export function ListProduct() {
   const itemsPerPage = 10;
   const { auth } = useContext(AuthContext);
   useEffect(() => {
-    axios.get("http://localhost:3000/api/product/getAll", {
+    axios.get("https://api.shopcuathuan.shop/api/product/getAll", {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${auth.token}`
@@ -124,12 +124,12 @@ export function ListProduct() {
                       </Typography>
                     </div>
                   </td>
+
                   <td className={classes}>{product.productName}</td>
-                  <td className={classes}>{product.categoryID}</td>
                   <td className={classes}>{product.price}</td>
-                  <td className={classes}>{product.stock}</td>
+                  <td className={classes}>{product.IsActive}</td>
                   <td className={classes}>
-                    <img src={product.image} alt={product.productName} className="w-16 h-16 object-cover" />
+                    <img src={product.imageUrl} alt={product.productName} className="w-16 h-16 object-cover" />
                   </td>
                   <td className={classes}>{product.description}</td>
                   <td className={classes}>

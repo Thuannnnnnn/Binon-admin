@@ -36,7 +36,7 @@ export function SignIn() {
 
     try {
 
-      const response = await axios.post('https://shopcuathuan.shop/api/auth/login', requestData);
+      const response = await axios.post('https://api.shopcuathuan.shop/api/auth/login', requestData);
       const check = onChangeCookie(response.data.token)
       window.location.href = "/dashboard/home";
       console.log(check)

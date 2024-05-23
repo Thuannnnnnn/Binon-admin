@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
         setToken(tokenCookie);
 
         if (tokenCookie) {
-            axios.post('https://shopcuathuan.shop/api/auth/validate', {}, {
+            axios.post('https://api.shopcuathuan.shop/api/auth/validate', {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${tokenCookie}`

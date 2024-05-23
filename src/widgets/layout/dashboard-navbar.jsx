@@ -14,7 +14,6 @@ import {
   Avatar,
 } from "@material-tailwind/react";
 import {
-  UserCircleIcon,
   Cog6ToothIcon,
   BellIcon,
   ClockIcon,
