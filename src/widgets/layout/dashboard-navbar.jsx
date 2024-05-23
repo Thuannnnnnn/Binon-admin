@@ -20,12 +20,14 @@ import {
   ClockIcon,
   CreditCardIcon,
   Bars3Icon,
+  ArrowLeftOnRectangleIcon
 } from "@heroicons/react/24/solid";
 import {
   useMaterialTailwindController,
   setOpenConfigurator,
   setOpenSidenav,
 } from "@/context";
+import { useCookies } from 'react-cookie';
 import { AuthContext } from '../../Auth/AuthContext';
 export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -34,7 +36,9 @@ export function DashboardNavbar() {
   const { auth } = useContext(AuthContext);
   const { userData } = auth;
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
+  const handleRemove = () => { removeCookie('token'); }
   return (
     <Navbar
       color={fixedNavbar ? "white" : "transparent"}
@@ -85,6 +89,9 @@ export function DashboardNavbar() {
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
           <h4 className="text-gray-800 mx-4">{userData.fullName}</h4>
+          <IconButton onClick={handleRemove} variant="text" color="blue-gray">
+            <ArrowLeftOnRectangleIcon className="h-5 w-5 text-blue-gray-500" />
+          </IconButton>
           <Menu>
             <MenuHandler>
               <IconButton variant="text" color="blue-gray">

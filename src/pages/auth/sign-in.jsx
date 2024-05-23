@@ -5,11 +5,9 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
 export function SignIn() {
-  const navigate = useNavigate();
   const [authData, setAuthData] = useState({
     user_name: '',
     password: '',
@@ -25,10 +23,6 @@ export function SignIn() {
   };
 
   const [cookies, setCookie] = useCookies(['token']);
-  const onChangeCookie = (token) => {
-    // Set the cookie with an appropriate path and security settings
-    setCookie('token', token, { path: '/', httpOnly: false, secure: true });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,13 +35,24 @@ export function SignIn() {
     };
 
     try {
+
       const response = await axios.post('https://shopcuathuan.shop/api/auth/login', requestData);
-      console.log('Success:', response.data);
-      onChangeCookie(response.data.token); 
-      console.log("login thanh cong") // Assume response.data contains the token
-      navigate("/dashboard/home");
+      const check = onChangeCookie(response.data.token)
+      window.location.href = "/dashboard/home";
+      console.log(check)
     } catch (error) {
       console.error('Error:', error);
+    }
+  };
+
+  const onChangeCookie = (token) => {
+
+    try {
+      setCookie('token', token);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false
     }
   };
 
@@ -98,11 +103,6 @@ export function SignIn() {
               </a>
             </Typography>
           </div>
-
-          <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
-            Not registered?
-            <Link to="/auth/sign-up" className="text-gray-900 ml-1">Create account</Link>
-          </Typography>
         </form>
       </div>
       <div className="w-2/5 h-full hidden lg:block">
