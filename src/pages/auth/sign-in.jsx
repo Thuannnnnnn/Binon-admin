@@ -23,6 +23,7 @@ export function SignIn() {
   };
 
   const [cookies, setCookie] = useCookies(['token']);
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,8 +41,9 @@ export function SignIn() {
       const check = onChangeCookie(response.data.token)
       window.location.href = "/dashboard/home";
       console.log(check)
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (err) {
+      setError(err)
+      console.error('Error:', err);
     }
   };
 
@@ -59,7 +61,7 @@ export function SignIn() {
   return (
     <section className="m-8 flex gap-4">
       <h1>abc{cookies.token}</h1>
-      <h1>abcd</h1>
+      <h1>{error}</h1>
       <div className="w-full lg:w-3/5 mt-24">
         <div className="text-center">
           <Typography variant="h2" className="font-bold mb-4">Sign In</Typography>
