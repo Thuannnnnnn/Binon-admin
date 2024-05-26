@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const tokenCookie = cookies.token;
         setToken(tokenCookie);
-
         if (tokenCookie) {
             axios.post('https://api.shopcuathuan.shop/api/auth/validate', {}, {
                 headers: {
@@ -39,9 +38,13 @@ export const AuthProvider = ({ children }) => {
         }
     }, [cookies.token, removeCookie]);
 
+    const login = (token, userData) => {
+        setCookie('token', token, { path: '/' });
+        setAuth({ token, isAuthenticated: true, loading: false, userData });
+    };
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, login }}>
             {children}
         </AuthContext.Provider>
     );

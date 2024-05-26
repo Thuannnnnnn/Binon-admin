@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { Input, Button, Typography } from "@material-tailwind/react";
-import { Link, useNavigate } from "react-router-dom";
-import Cookies from 'universal-cookie';
+import {
+  Input,
+  Button,
+  Typography,
+} from "@material-tailwind/react";
+import { useCookies } from 'react-cookie';
+import { AuthContext } from '../../Auth/AuthContext'; // Đảm bảo import AuthContext đúng đường dẫn
 
 export function SignIn() {
-  const navigate = useNavigate();
   const [authData, setAuthData] = useState({
     user_name: '',
     password: '',
   });
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAuthData({
@@ -20,18 +22,9 @@ export function SignIn() {
     });
   };
 
-  // Create an instance of Cookies
-  const cookies = new Cookies();
+  const { login } = useContext(AuthContext); // Sử dụng AuthContext để lấy hàm login
+  const [cookies, setCookie] = useCookies(['token']);
 
-  // Function to set the cookie
-  const onChangeCookie = async (token) => {
-    navigate("/dashboard/home");
-    await cookies.set('token', token, { path: '/', secure: true });
-    console.log(cookies.get('token'))
-   
-  };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -44,9 +37,11 @@ export function SignIn() {
 
     try {
       const response = await axios.post('https://api.shopcuathuan.shop/api/auth/login', requestData);
-      console.log('Success:', response.data);
-      onChangeCookie(response.data.token);  // Assume response.data contains the token
-      navigate("/dashboard/home");
+      if (response.data && response.data.token) {
+        const userData = response.data; // Giả sử dữ liệu người dùng cũng có trong response
+        login(response.data.token, userData); // Gọi hàm login từ AuthContext
+        window.location.href = "/dashboard/home"; // Điều hướng sau khi đăng nhập thành công
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -99,11 +94,6 @@ export function SignIn() {
               </a>
             </Typography>
           </div>
-
-          <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
-            Not registered?
-            <Link to="/auth/sign-up" className="text-gray-900 ml-1">Create account</Link>
-          </Typography>
         </form>
       </div>
       <div className="w-2/5 h-full hidden lg:block">
