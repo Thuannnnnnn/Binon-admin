@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from '@/layouts/dashboard'; // Adjust the path as necessary
-import Auth from '@/layouts/auth'; // Adjust the path as necessary
-import { AuthContext } from './Auth/AuthContext'; // Import AuthContext
+import Dashboard from '@/layouts/dashboard';
+import Auth from '@/layouts/auth'; 
+import { AuthContext } from './Auth/AuthContext';
 
 function App() {
   const { auth } = useContext(AuthContext);
   const { isAuthenticated, loading } = auth;
-  console.log("isAuthenticated: " + isAuthenticated)
   if (loading) {
-    return <div>Loading...</div>; // Display a loading indicator while checking authentication
+    return <div>Loading...</div>; 
   }
 
   return (
