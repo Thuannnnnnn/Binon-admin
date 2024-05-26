@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {
-  Input,
-  Button,
-  Typography,
-} from "@material-tailwind/react";
-import { useCookies } from 'react-cookie';
+import { Input, Button, Typography } from "@material-tailwind/react";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 export function SignIn() {
+  const navigate = useNavigate();
   const [authData, setAuthData] = useState({
     user_name: '',
     password: '',
   });
 
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setAuthData({
       ...authData,
       [name]: value,
     });
   };
 
-  const [cookies, setCookie] = useCookies(['token']);
-  const [error, setError] = useState("")
+  // Create an instance of Cookies
+  const cookies = new Cookies();
 
+  // Function to set the cookie
+  const onChangeCookie = async (token) => {
+    navigate("/dashboard/home");
+    await cookies.set('token', token, { path: '/', secure: true });
+    console.log(cookies.get('token'))
+   
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,36 +43,19 @@ export function SignIn() {
     };
 
     try {
-
       const response = await axios.post('https://api.shopcuathuan.shop/api/auth/login', requestData);
-      const check = onChangeCookie(response.data.token)
-        window.location.href = "/dashboard/home";
-      console.log(check)
-    } catch (err) {
-      setError(err)
-      console.error('Error:', err);
-    }
-  };
-
-  const onChangeCookie = (token) => {
-
-    try {
-      setCookie('token', token);
-      return true;
+      console.log('Success:', response.data);
+      onChangeCookie(response.data.token);  // Assume response.data contains the token
+      navigate("/dashboard/home");
     } catch (error) {
-      console.log(error);
-      return false
+      console.error('Error:', error);
     }
   };
 
   return (
     <section className="m-8 flex gap-4">
-      <h1>abc{cookies.token}</h1>
-      <h1>{error}</h1>
       <div className="w-full lg:w-3/5 mt-24">
-
         <div className="text-center">
-          <h1>abc{cookies.token}</h1>
           <Typography variant="h2" className="font-bold mb-4">Sign In</Typography>
           <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Sign In.</Typography>
         </div>
@@ -109,6 +99,11 @@ export function SignIn() {
               </a>
             </Typography>
           </div>
+
+          <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
+            Not registered?
+            <Link to="/auth/sign-up" className="text-gray-900 ml-1">Create account</Link>
+          </Typography>
         </form>
       </div>
       <div className="w-2/5 h-full hidden lg:block">

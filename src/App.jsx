@@ -7,6 +7,7 @@ import { AuthContext } from './Auth/AuthContext'; // Import AuthContext
 function App() {
   const { auth } = useContext(AuthContext);
   const { isAuthenticated, loading } = auth;
+  console.log("isAuthenticated: " + isAuthenticated)
   if (loading) {
     return <div>Loading...</div>; // Display a loading indicator while checking authentication
   }
@@ -14,9 +15,9 @@ function App() {
   return (
     <Routes>
       <Route
+
         path="/dashboard/*"
-        element={isAuthenticated ? <Dashboard /> : <Navigate to="/auth/sign-in" />}
-      />
+        element={<Dashboard />} />
       <Route path="/auth/*" element={<Auth />} />
       <Route
         path="*"
