@@ -42,9 +42,13 @@ export const AuthProvider = ({ children }) => {
         setCookie('token', token, { path: '/' });
         setAuth({ token, isAuthenticated: true, loading: false, userData });
     };
+    const logout = () => {
+        removeCookie('token', { path: '/' });
+        setAuth({ token: null, isAuthenticated: false, loading: false, userData: null });
+    };
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth, login }}>
+        <AuthContext.Provider value={{ auth, setAuth, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

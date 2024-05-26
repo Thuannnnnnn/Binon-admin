@@ -5,7 +5,6 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { useCookies } from 'react-cookie';
 import { AuthContext } from '../../Auth/AuthContext'; // Đảm bảo import AuthContext đúng đường dẫn
 
 export function SignIn() {
@@ -22,8 +21,7 @@ export function SignIn() {
     });
   };
 
-  const { login } = useContext(AuthContext); // Sử dụng AuthContext để lấy hàm login
-  const [cookies, setCookie] = useCookies(['token']);
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,9 +36,9 @@ export function SignIn() {
     try {
       const response = await axios.post('https://api.shopcuathuan.shop/api/auth/login', requestData);
       if (response.data && response.data.token) {
-        const userData = response.data; // Giả sử dữ liệu người dùng cũng có trong response
-        login(response.data.token, userData); // Gọi hàm login từ AuthContext
-        window.location.href = "/dashboard/home"; // Điều hướng sau khi đăng nhập thành công
+        const userData = response.data;
+        login(response.data.token, userData);
+        window.location.href = "/dashboard/home";
       }
     } catch (error) {
       console.error('Error:', error);

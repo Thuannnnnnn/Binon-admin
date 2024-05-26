@@ -32,12 +32,15 @@ export function DashboardNavbar() {
   const [controller, dispatch] = useMaterialTailwindController();
   const { fixedNavbar, openSidenav } = controller;
   const { pathname } = useLocation();
-  const { auth } = useContext(AuthContext);
+  const { auth, logout } = useContext(AuthContext);
   const { userData } = auth;
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
-  const handleRemove = () => { removeCookie('token'); }
+  const handleRemove = () => {
+    console.log("xoa TOken")
+    removeCookie('token');
+  }
   return (
     <Navbar
       color={fixedNavbar ? "white" : "transparent"}
@@ -88,7 +91,7 @@ export function DashboardNavbar() {
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
           <h4 className="text-gray-800 mx-4">{userData.fullName}</h4>
-          <IconButton onClick={handleRemove} variant="text" color="blue-gray">
+          <IconButton onClick={logout} variant="text" color="blue-gray">
             <ArrowLeftOnRectangleIcon className="h-5 w-5 text-blue-gray-500" />
           </IconButton>
           <Menu>
